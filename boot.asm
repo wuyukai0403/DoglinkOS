@@ -1,8 +1,9 @@
 mov ax, 07c0h
 mov ds, ax
 
+mov si, message
 printstr:
-      mov al, message
+      mov al, byte [si]
       cmp al, 0
       je over
       mov ah, 0eh
