@@ -95,6 +95,8 @@ inlongmode:
 mov rax, 0x2f592f412f4b2f4f
 mov qword [0xb8000], rax
 
+jmp entry64
+
 over:
 hlt
 jmp $
@@ -135,4 +137,4 @@ p2_table_2:
 resq 512
 p2_table_3:
 resq 512
-endpgt:
+entry64:
