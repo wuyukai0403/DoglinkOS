@@ -1,10 +1,10 @@
-myos.img: boot.bin kernel.bin
+myos.img: boot/boot.bin boot/kernel.bin
 	dd if=/dev/zero of=myos.img bs=1M count=4
-	dd if=boot.bin of=myos.img conv=notrunc
-	dd if=kernel.bin of=myos.img conv=notrunc bs=512 seek=1
+	dd if=boot/boot.bin of=myos.img conv=notrunc
+	dd if=boot/kernel.bin of=myos.img conv=notrunc bs=512 seek=1
 
-boot.bin: boot.asm
-	nasm boot.asm -o boot.bin
+boot/boot.bin: boot/boot.asm
+	nasm boot/boot.asm -o boot/boot.bin
 
-kernel.bin: kernel.asm
-	nasm kernel.asm -o kernel.bin
+boot/kernel.bin: kernel.asm
+	nasm boot/kernel.asm -o boot/kernel.bin
