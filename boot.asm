@@ -33,7 +33,7 @@ db 'Step2: reading kernel', 0x0d, 0x0a, 0
 kernel_disk_addr_pkt:
 db 16
 db 0
-dw 15
+dw 63
 dd 08000000h
 dq 1
 

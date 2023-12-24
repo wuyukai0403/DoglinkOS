@@ -30,7 +30,7 @@ mov eax, cr0
 or eax, 1
 mov cr0, eax
 
-jmp dword 0x0008:inprotectmode + 8000h
+jmp 0x0008:inprotectmode + 8000h
 
 bits 32
 inprotectmode:
@@ -58,10 +58,47 @@ mov dword [0xb8000 + 3 * 160 + 36], 0x0c6d
 mov dword [0xb8000 + 3 * 160 + 38], 0x0c6f
 mov dword [0xb8000 + 3 * 160 + 40], 0x0c64
 mov dword [0xb8000 + 3 * 160 + 42], 0x0c65
+
+mov eax, cr4
+or eax, 1 << 5
+mov cr4, eax
+
+xor ecx, ecx
+fill_p2:
+mov eax, 200000h
+mul ecx
+add eax, 129
+mov dword [p2_table_0 + 0x8000 + 8 * ecx], eax
+inc ecx
+cmp ecx, 2048
+jne fill_p2
+
+mov eax, p4_table + 0x8000
+mov cr3, eax
+
+mov ecx, 0xc0000080
+rdmsr
+or eax, 1 << 8
+wrmsr
+
+mov eax, cr0
+or eax, 1 << 31
+mov cr0, eax
+
+lgdt [gdtr64 + 0x8000]
+
+jmp 0x0008:inlongmode + 0x8000
+
+bits 64
+
+inlongmode:
+mov rax, 0x2f592f412f4b2f4f
+mov qword [0xb8000], rax
+
 over:
 hlt
 jmp $
- 
+
 message1:
 db 'Step3: in kernelA', 0x0d, 0x0a, 0
 gdt32:
@@ -74,4 +111,28 @@ dd 0x00cf9200
 dd 0          ; don't use
 dd 0
 gdtr32: dw 31
-      dd gdt32 + 8000h
+        dd gdt32 + 8000h
+gdt64:
+dq 0
+dq (1<<43) | (1<<44) | (1<<47) | (1<<53)
+gdtr64: dw 15
+        dq gdt64 + 8000h
+align 4096
+p4_table:
+dq p3_table + 0x8000 + 3
+resq 511
+p3_table:
+dq p2_table_0 + 0x8000 + 3
+dq p2_table_1 + 0x8000 + 3
+dq p2_table_2 + 0x8000 + 3
+dq p2_table_3 + 0x8000 + 3
+resq 508
+p2_table_0:
+resq 512
+p2_table_1:
+resq 512
+p2_table_2:
+resq 512
+p2_table_3:
+resq 512
+endpgt:
