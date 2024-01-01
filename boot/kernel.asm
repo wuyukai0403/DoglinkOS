@@ -67,7 +67,7 @@ xor ecx, ecx
 fill_p2:
 mov eax, 200000h
 mul ecx
-add eax, 129
+add eax, 131
 mov dword [p2_table_0 + 0x8000 + 8 * ecx], eax
 inc ecx
 cmp ecx, 2048
