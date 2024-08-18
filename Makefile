@@ -18,7 +18,7 @@ kernel/kernel.bin: kernel/kernel.elf
 	objcopy -O binary --only-section=.text kernel/kernel.elf kernel/kernel.bin
 
 kernel/kernel.elf: kernel/entry64.o kernel/functions.o kernel/interrupt.o
-	ld -nostdlib kernel/entry64.o kernel/functions.o kernel/interrupt.o -e entry64 -o kernel/kernel.elf
+	ld -nostdlib -Ttext 0xf000 kernel/entry64.o kernel/functions.o kernel/interrupt.o -e entry64 -o kernel/kernel.elf
 
 kernel/entry64.o: kernel/entry64.c kernel/include/functions.h kernel/include/interrupt.h
 	gcc $(CFLAGS) -c kernel/entry64.c -o kernel/entry64.o

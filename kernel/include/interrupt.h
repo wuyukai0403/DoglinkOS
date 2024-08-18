@@ -20,7 +20,6 @@ typedef struct
 
 void setup_interrupt();
 void disable_8259A();
-void register_interrupt_handler(unsigned char, void (*)(void));
-void example_handler();
+void register_interrupt_handler(unsigned char, void*);
 
 #endif /* _INTERRUPT_H */

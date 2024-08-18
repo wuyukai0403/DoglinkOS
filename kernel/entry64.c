@@ -8,7 +8,6 @@ void entry64()
     putchar(12, 39, 'C');
     putchar(12, 40, 'C');
     setup_interrupt();
-    register_interrupt_handler(32, example_handler);
     putchar(1, 0, 'S');
     putchar(1, 1, 'u');
     putchar(1, 2, 'c');
