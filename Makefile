@@ -17,11 +17,14 @@ boot/kernel.bin: boot/kernel.asm
 kernel/kernel.bin: kernel/kernel.elf
 	objcopy -O binary --only-section=.text kernel/kernel.elf kernel/kernel.bin
 
-kernel/kernel.elf: kernel/entry64.o kernel/functions.o
-	ld -nostdlib kernel/entry64.o kernel/functions.o -e entry64 -o kernel/kernel.elf
+kernel/kernel.elf: kernel/entry64.o kernel/functions.o kernel/interrupt.o
+	ld -nostdlib kernel/entry64.o kernel/functions.o kernel/interrupt.o -e entry64 -o kernel/kernel.elf
 
-kernel/entry64.o: kernel/entry64.c kernel/include/functions.h
+kernel/entry64.o: kernel/entry64.c kernel/include/functions.h kernel/include/interrupt.h
 	gcc $(CFLAGS) -c kernel/entry64.c -o kernel/entry64.o
 
 kernel/functions.o: kernel/functions.c kernel/include/functions.h
 	gcc $(CFLAGS) -c kernel/functions.c -o kernel/functions.o
+
+kernel/interrupt.o: kernel/interrupt.c kernel/include/interrupt.h
+	gcc $(CFLAGS) -c kernel/interrupt.c -o kernel/interrupt.o
