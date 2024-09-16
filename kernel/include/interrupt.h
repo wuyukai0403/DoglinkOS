@@ -21,6 +21,7 @@ typedef struct
 #define small_routines ((unsigned char*)(0x6000))
 
 void __asm_interrupt_handler();
+void __c_interrupt_handler(void *);
 void setup_interrupt();
 void disable_8259A();
 void register_interrupt_handler(unsigned char, void*);

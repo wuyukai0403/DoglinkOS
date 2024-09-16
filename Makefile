@@ -26,7 +26,7 @@ kernel/entry64.o: kernel/entry64.c kernel/include/functions.h kernel/include/int
 kernel/functions.o: kernel/functions.c kernel/include/functions.h
 	gcc $(CFLAGS) -c kernel/functions.c -o kernel/functions.o
 
-kernel/interrupt.o: kernel/interrupt.c kernel/include/interrupt.h
+kernel/interrupt.o: kernel/interrupt.c kernel/include/functions.h kernel/include/interrupt.h
 	gcc $(CFLAGS) -c kernel/interrupt.c -o kernel/interrupt.o
 
 kernel/generic_interrupt_handler.o: kernel/generic_interrupt_handler.asm

@@ -1,10 +1,10 @@
 #include "interrupt.h"
+#include "functions.h"
 
-unsigned char __attribute__((__section__(".text"))) example_handler[] = {
-    0xB8, 0x00, 0x80, 0x0B, 0x00, // MOV EAX, 000B8000
-    0x66, 0xC7, 0x00, 0x23, 0x07, // MOV WORD PTR [RAX], 0723
-    0x48, 0xCF,                   // IRETQ
-};
+void __c_interrupt_handler(void *)
+{
+    putchar(0, 0, '#');
+}
 
 void setup_interrupt()
 {
