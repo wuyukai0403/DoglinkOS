@@ -1,7 +1,12 @@
 #include "interrupt.h"
 #include "functions.h"
 
-void __c_interrupt_handler(void *)
+void __c_interrupt_handler(INT_STACK *interrupt_stack)
+{
+    ((void (*)(INT_STACK *))(interrupt_handlers[interrupt_stack -> code]))(interrupt_stack);
+}
+
+void example_handler(INT_STACK *interrupt_stack)
 {
     putchar(0, 0, '#');
 }
@@ -13,7 +18,7 @@ void setup_interrupt()
     unsigned char idtr[] = {0xff, 0xf, 0, 0x70, 0, 0, 0, 0, 0, 0};
     asm volatile ("lidt %0"::"m"(idtr));
     asm volatile ("sti");
-    register_interrupt_handler(32, 0);
+    register_interrupt_handler(32, example_handler);
 }
 
 void disable_8259A()
