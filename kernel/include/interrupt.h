@@ -17,7 +17,10 @@ typedef struct
 }IDT_Entry;
 
 #define IDT ((IDT_Entry*)(0x7000))
+#define interrupt_handlers ((unsigned long long*)(0x6800))
+#define small_routines ((unsigned char*)(0x6000))
 
+void __asm_interrupt_handler();
 void setup_interrupt();
 void disable_8259A();
 void register_interrupt_handler(unsigned char, void*);

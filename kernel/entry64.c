@@ -15,6 +15,7 @@ void entry64()
     putchar(1, 4, 'e');
     putchar(1, 5, 's');
     putchar(1, 6, 's');
+//    asm volatile ("hlt");
     asm volatile ("int $32");
     while (1);
 }
